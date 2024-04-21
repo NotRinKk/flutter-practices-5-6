@@ -1,17 +1,13 @@
 import 'package:flutter/material.dart';
-
 import 'Styles.dart';
-
 //Экран выбора платформы
 class PlatformPage extends StatefulWidget {
   @override
   _PlatformPageState createState() => _PlatformPageState();
   const PlatformPage({super.key});
 }
-
 class _PlatformPageState extends State<PlatformPage> {
   String selectedPlatform = '';
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(

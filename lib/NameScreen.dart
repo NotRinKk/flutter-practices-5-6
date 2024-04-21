@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
 import 'GreetingScreen.dart';
 import 'Styles.dart';
-
 //Экран для ввода имени
 class NamePage extends StatelessWidget {
   const NamePage({super.key});
-
   @override
   Widget build(BuildContext context) {
     TextEditingController nameController = TextEditingController(); // Создаем контроллер для текстового поля

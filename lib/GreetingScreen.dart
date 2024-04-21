@@ -4,9 +4,7 @@ import 'Styles.dart';
 //Экран приветствия
 class GreetingPage extends StatelessWidget {
   final String data; // Переменная хранения передаваемых данных на страницу
-
   const GreetingPage({super.key, required this.data});
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
