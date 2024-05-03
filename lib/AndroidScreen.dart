@@ -8,6 +8,7 @@ class AndroidScreen extends StatefulWidget {
   @override
   _AndroidScreenState createState() => _AndroidScreenState(); // Создание состояния для AndroidScreen.
 }
+//async
 class _AndroidScreenState extends State<AndroidScreen> {
   // Создание платформенного канала для взаимодействия с методами платформы.
   static const platform = MethodChannel('samples.flutter.dev/battery');
@@ -23,12 +24,40 @@ class _AndroidScreenState extends State<AndroidScreen> {
     } on PlatformException catch (e) {
       // Обработка исключений, возникающих при вызове метода платформы.
       batteryLevel = "Failed to get battery level: '${e.message}'.";
+      throw "Failed to get battery level: '$e.message'.";
     }
     // Обновление состояния виджета для отображения полученного уровня заряда батареи.
     setState(() {
       _batteryLevel = batteryLevel;
     });
   }
+//Future API
+/*
+class _AndroidScreenState extends State<AndroidScreen> {
+  // Создание платформенного канала для взаимодействия с методами платформы.
+  static const platform = MethodChannel('samples.flutter.dev/battery');
+  // Инициализация переменной для хранения уровня заряда батареи.
+  String _batteryLevel = 'Неизвестный уровень батреи.';
+  // Функция для получения уровня заряда батареи.
+  Future<void> _getBatteryLevel() {
+    // Вызов метода платформы для получения уровня заряда батареи.
+    return platform.invokeMethod('getBatteryLevel').then((result) {
+      String batteryLevel = 'Battery level at $result % .'; // Формирование строки с уровнем заряда.
+      // Обновление состояния виджета для отображения полученного уровня заряда батареи.
+      setState(() {
+        _batteryLevel = batteryLevel;
+      });
+    }).catchError((error) {
+      // Обработка ошибок, возникающих при вызове метода платформы.
+      String batteryLevel = "Failed to get battery level: '$error'.";
+      // Обновление состояния виджета для отображения ошибки получения уровня заряда батареи.
+      setState(() {
+        _batteryLevel = batteryLevel;
+      });
+      throw "Failed to get battery level: '$error'.";
+    });
+  }
+ */
   @override
   Widget build(BuildContext context) {
     return Scaffold(

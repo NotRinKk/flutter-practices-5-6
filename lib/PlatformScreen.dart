@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'Styles.dart';
 //Экран выбора платформы
@@ -8,6 +9,7 @@ class PlatformPage extends StatefulWidget {
 }
 class _PlatformPageState extends State<PlatformPage> {
   String selectedPlatform = '';
+  final String _imageURL = "https://img.freepik.com/free-vector/responsive-concept-illustration_114360-674.jpg?t=st=1714728969~exp=1714732569~hmac=1ba2cafef7b5c5916cf915fef2fecc548d69bcbd552c5d20fa4c3077bd482004&w=1380";
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -18,6 +20,25 @@ class _PlatformPageState extends State<PlatformPage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
+            CachedNetworkImage(
+              imageUrl: _imageURL,
+              placeholder: (context, url) => const CircularProgressIndicator(),
+              errorWidget: (context, url, error) => const Icon(
+                Icons.error,
+                size: 100,
+                color: Colors.red,
+              ),
+              imageBuilder: (context, imageProvider) => Container(
+                width: 250,
+                height: 250,
+                decoration: BoxDecoration(
+                  image: DecorationImage(
+                    image: imageProvider,
+                    fit: BoxFit.fill,
+                  ),
+                ),
+              ),
+            ),
             const Text(
               'Укажите на какой вы платформе',
               textAlign: TextAlign.center,
