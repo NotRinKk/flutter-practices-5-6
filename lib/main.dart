@@ -6,6 +6,8 @@ import 'AndroidScreen.dart';
 import 'WebScreen.dart';
 import 'GreetingScreen.dart';
 void main() {
+  // Выполняет настройку зависимостей с помощью setupLocator(),
+  setupLocator();// Регистрация зависимостей с помощью setupLocator()
   runApp(const MyApp());
 }
 class MyApp extends StatelessWidget {
@@ -15,14 +17,14 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       initialRoute: '/',
       routes: { // Использование маршрутов для навигации
-        '/home':(context) => NamePage(),
-        '/PlatformPage':(context) => PlatformPage(),
+        '/home':(context) => const NamePage(),
+        '/PlatformPage':(context) => const PlatformPage(),
         '/CheckPage':
             (context) => CheckPage(data: ModalRoute.of(context)?.settings.arguments as String),
         // Получение аргумента и передача его в CheckPage
         '/AndroidScreen':(context) => AndroidScreen(),
-        '/WebScreen':( context) => WebScreen(),
-        '/GreetingPage':( context) => GreetingPage(data: ModalRoute.of(context)?.settings.arguments as String),
+        '/WebScreen':( context) => const WebScreen(),
+        '/GreetingPage':( context) => GreetingPage(), //Использование Inhereted Widget для передачи данных
       },
       title: 'Практики',
       debugShowCheckedModeBanner: false,

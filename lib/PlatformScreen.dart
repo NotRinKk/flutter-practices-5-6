@@ -1,6 +1,25 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:get_it/get_it.dart';// Импортируем пакет GetIt для управления зависимостями
 import 'Styles.dart';
+
+// Создаём переменную locator как экземпляр GetIt для доступа к зависимостям
+GetIt locator = GetIt.instance;
+
+// Функция настройки зависимостей
+void setupLocator() {
+  // Регистрируем зависимость PlatformService в GetIt.
+  // registerLazySingleton обеспечивает создание и хранение
+  // только одного экземпляра PlatformService при первом запросе
+  locator.registerLazySingleton<PlatformService>(() => PlatformService());
+}
+
+// Сервис для работы с платформой
+class PlatformService {
+  // Переменная для хранения выбранной платформы
+  String selectedPlatform = '';
+}
+
 //Экран выбора платформы
 class PlatformPage extends StatefulWidget {
   @override
@@ -52,9 +71,9 @@ class _PlatformPageState extends State<PlatformPage> {
             const SizedBox(height: 10),
             GestureDetector(
               onTap: () {
-                setState(() {
-                  selectedPlatform = 'Android';
-                });
+                // Обновляем выбранную платформу в PlatformService
+                locator<PlatformService>().selectedPlatform = 'Android';
+                setState(() {});
               },
               child: const Text(
                 'Android',
@@ -63,9 +82,9 @@ class _PlatformPageState extends State<PlatformPage> {
             ),
             GestureDetector(
               onTap: () {
-                setState(() {
-                  selectedPlatform = 'Web';
-                });
+                // Обновляем выбранную платформу в PlatformService
+                locator<PlatformService>().selectedPlatform = 'Web';
+                setState(() {});
               },
               child: const Text(
                 'Web',
@@ -74,7 +93,8 @@ class _PlatformPageState extends State<PlatformPage> {
             ),
             const SizedBox(height: 20),
             Text(
-              'Выбранная платформа: $selectedPlatform',
+              // Отображаем выбранную платформу
+              'Выбранная платформа: ${locator<PlatformService>().selectedPlatform}',
               style: const TextStyle(fontWeight: FontWeight.bold),
             ),
         Padding(

@@ -77,7 +77,7 @@ class _AndroidScreenState extends State<AndroidScreen> {
             // Кнопка для перехода на начальный экран.
             CustomTextButton(
               onPressed: () {
-                Navigator.pushReplacement(context, MaterialPageRoute(builder: (BuildContext context) => NamePage()));
+                Navigator.pushReplacement(context, MaterialPageRoute(builder: (BuildContext context) => const NamePage()));
               },
               text: 'Перейти на начальный экран',
             ),
