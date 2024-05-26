@@ -5,10 +5,10 @@ import 'CheckScreen.dart';
 import 'AndroidScreen.dart';
 import 'WebScreen.dart';
 import 'GreetingScreen.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 void main() {
-  // Выполняет настройку зависимостей с помощью setupLocator(),
-  setupLocator();// Регистрация зависимостей с помощью setupLocator()
-  runApp(const MyApp());
+  //Начальная точка управления состоянием Riverpod
+  runApp(const ProviderScope(child: MyApp()));
 }
 class MyApp extends StatelessWidget {
   const MyApp({super.key});

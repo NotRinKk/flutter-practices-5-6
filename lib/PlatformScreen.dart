@@ -1,36 +1,20 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:get_it/get_it.dart';// Импортируем пакет GetIt для управления зависимостями
 import 'Styles.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-// Создаём переменную locator как экземпляр GetIt для доступа к зависимостям
-GetIt locator = GetIt.instance;
+// Создаем провайдер для управления выбранной платформой
+final selectedPlatformProvider = StateProvider<String>((ref) => '');
 
-// Функция настройки зависимостей
-void setupLocator() {
-  // Регистрируем зависимость PlatformService в GetIt.
-  // registerLazySingleton обеспечивает создание и хранение
-  // только одного экземпляра PlatformService при первом запросе
-  locator.registerLazySingleton<PlatformService>(() => PlatformService());
-}
+class PlatformPage extends ConsumerWidget {
+  const PlatformPage({Key? key}) : super(key: key);
 
-// Сервис для работы с платформой
-class PlatformService {
-  // Переменная для хранения выбранной платформы
-  String selectedPlatform = '';
-}
-
-//Экран выбора платформы
-class PlatformPage extends StatefulWidget {
   @override
-  _PlatformPageState createState() => _PlatformPageState();
-  const PlatformPage({super.key});
-}
-class _PlatformPageState extends State<PlatformPage> {
-  String selectedPlatform = '';
-  final String _imageURL = "https://img.freepik.com/free-vector/responsive-concept-illustration_114360-674.jpg?t=st=1714728969~exp=1714732569~hmac=1ba2cafef7b5c5916cf915fef2fecc548d69bcbd552c5d20fa4c3077bd482004&w=1380";
-  @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final selectedPlatform = ref.watch(selectedPlatformProvider.notifier).state;
+    final String _imageURL =
+        "https://img.freepik.com/free-vector/responsive-concept-illustration_114360-674.jpg?t=st=1714728969~exp=1714732569~hmac=1ba2cafef7b5c5916cf915fef2fecc548d69bcbd552c5d20fa4c3077bd482004&w=1380";
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Выбор платформы'),
@@ -71,9 +55,7 @@ class _PlatformPageState extends State<PlatformPage> {
             const SizedBox(height: 10),
             GestureDetector(
               onTap: () {
-                // Обновляем выбранную платформу в PlatformService
-                locator<PlatformService>().selectedPlatform = 'Android';
-                setState(() {});
+                ref.read(selectedPlatformProvider.notifier).state = 'Android';
               },
               child: const Text(
                 'Android',
@@ -82,9 +64,7 @@ class _PlatformPageState extends State<PlatformPage> {
             ),
             GestureDetector(
               onTap: () {
-                // Обновляем выбранную платформу в PlatformService
-                locator<PlatformService>().selectedPlatform = 'Web';
-                setState(() {});
+                ref.read(selectedPlatformProvider.notifier).state = 'Web';
               },
               child: const Text(
                 'Web',
@@ -93,22 +73,24 @@ class _PlatformPageState extends State<PlatformPage> {
             ),
             const SizedBox(height: 20),
             Text(
-              // Отображаем выбранную платформу
-              'Выбранная платформа: ${locator<PlatformService>().selectedPlatform}',
+              'Выбранная платформа: ${ref.watch(selectedPlatformProvider)}',
               style: const TextStyle(fontWeight: FontWeight.bold),
             ),
-        Padding(
-          padding: const EdgeInsets.symmetric(vertical: 10.0), // Отступ между кнопками
-          child: CustomTextButton(
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 10.0),
+              child: CustomTextButton(
                 onPressed: () {
-                  Navigator.pushNamed(context, '/CheckPage', arguments: selectedPlatform);
-                }, text: 'Далее',
+                  Navigator.pushNamed(context, '/CheckPage',
+                      arguments: selectedPlatform);
+                },
+                text: 'Далее',
+              ),
             ),
-          ),
             CustomTextButton(
-                onPressed: () {
-                  Navigator.pushNamed(context, '/GreetingPage');
-                }, text: 'Назад',
+              onPressed: () {
+                Navigator.pushNamed(context, '/GreetingPage');
+              },
+              text: 'Назад',
             ),
           ],
         ),
